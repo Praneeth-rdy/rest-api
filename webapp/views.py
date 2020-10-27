@@ -15,7 +15,7 @@ class EmployeeList(APIView):
             id = request.GET.get('id')
             employee = Employee.objects.filter(id=id)[0]
         except:
-            pass
+            employee = None
         employees = Employee.objects.all()
         if employee:
             serializer = EmployeeSerializer(employee, many=False)
