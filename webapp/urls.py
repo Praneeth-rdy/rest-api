@@ -6,5 +6,4 @@ app_name = 'webapp'
 
 urlpatterns = [
     path('employees/', views.EmployeeList.as_view()),
-    path('login/', views.Login.as_view()),
 ]
