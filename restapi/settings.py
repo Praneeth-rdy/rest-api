@@ -143,3 +143,6 @@ EMAIL_HOST_PASSWORD = 'Abc@123456'
 
 # Setting exclusively for the mailing_app to send test emails
 TEST_EMAIL = ''
+
+
+AUTH_USER_MODEL = 'webapp.CustomUser'

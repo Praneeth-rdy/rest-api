@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 
 
 from rest_framework.views import APIView
@@ -10,6 +10,7 @@ from rest_framework import status
 
 from ..models import *
 from .serializers import *
+from django.contrib.auth import authenticate, login, logout
 
 
 # Create your views here.
@@ -43,3 +44,26 @@ class Blogs(APIView):
     
     def post(self):
         pass
+
+class Login(APIView):
+    def get(self, request):
+        if request.user.is_authenticated:
+            print(request.user)
+            #logout(request)
+            return redirect("/webapp/blogs/")
+        else:
+            data = [{"response": "Login First"}]
+            return Response(data, status=status.HTTP_400_BAD_REQUEST)
+
+    def post(self, request):
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("/webapp/blogs/")
+        else:
+            user = CustomUser.objects.get(username=username)
+            if password != user.password:
+                data = [{"response": "Invalid password"}]
+                return Response(data, status=status.HTTP_400_BAD_REQUEST)
