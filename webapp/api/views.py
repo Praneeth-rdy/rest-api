@@ -36,7 +36,8 @@ class Blogs(APIView):
             req_title = request.GET.get('title')
             blogs = Blog.objects.filter(title=req_title)
         except:
-            blogs = Blog.objects.all()
+            pass
+        blogs = Blog.objects.all()
         serializer = BlogSerializer(blogs, many=True)
         return Response(serializer.data)
     
