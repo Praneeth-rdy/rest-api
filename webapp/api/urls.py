@@ -5,5 +5,5 @@ from . import views
 app_name = 'webapp'
 
 urlpatterns = [
-    path('', include('webapp.api.urls')),
+    path('employees/', views.Employees.as_view()),
 ]
