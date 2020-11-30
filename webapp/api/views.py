@@ -33,20 +33,14 @@ class Employees(APIView):
 
 class Blogs(APIView):
     def get(self, request):
-        if request.user.is_authenticated:
-            print(request.user)
-            #logout(request)
-            try:
-                req_title = request.GET.get('title')
-                blogs = Blog.objects.filter(title=req_title)
-            except:
-                pass
-            blogs = Blog.objects.all()
-            serializer = BlogSerializer(blogs, many=True)
-            return Response(serializer.data)
-        else:
-            data = [{"response": "Login First"}]
-            return Response(data, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            req_title = request.GET.get('title')
+            blogs = Blog.objects.filter(title=req_title)
+        except:
+            pass
+        blogs = Blog.objects.all()
+        serializer = BlogSerializer(blogs, many=True)
+        return Response(serializer.data)
     
     def post(self):
         pass
