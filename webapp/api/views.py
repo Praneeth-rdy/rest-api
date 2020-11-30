@@ -8,8 +8,8 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
-from ..models import Employee
-from .serializers import EmployeeSerializer
+from ..models import *
+from .serializers import *
 
 
 # Create your views here.
@@ -33,15 +33,12 @@ class Employees(APIView):
 class Blogs(APIView):
     def get(self, request):
         try:
-            id = request.GET.get('id')
-            employee = Employee.objects.filter(id=id)[0]
+            req_title = request.GET.get('title')
+            blogs = Blog.objects.filter(title=req_title)
         except:
-            employee = None
-        employees = Employee.objects.all()
-        if employee:
-            serializer = EmployeeSerializer(employee, many=False)
-        else:
-            serializer = EmployeeSerializer(employees, many=True)
+            pass
+        blogs = Blog.objects.all()
+        serializer = BlogSerializer(blogs, many=True)
         return Response(serializer.data)
     
     def post(self):
