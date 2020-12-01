@@ -42,8 +42,15 @@ class Blogs(APIView):
         serializer = BlogSerializer(blogs, many=True)
         return Response(serializer.data)
     
-    def post(self):
-        pass
+    def post(self, request):
+        key = request.POST.get('key')
+        if key == '1202':
+            blogs = Blog.objects.all()
+            serializer = BlogSerializer(blogs, many=True)
+            return Response(serializer.data)
+        else:
+            data = [{"response": "Key is wrong or not found"}]
+            return Response(data, status=status.HTTP_400_BAD_REQUEST)
 
 class Login(APIView):
     def get(self, request):
@@ -68,3 +75,6 @@ class Login(APIView):
             if password != user.password:
                 data = [{"response": "Invalid password"}]
                 return Response(data, status=status.HTTP_400_BAD_REQUEST)
+class Logout(APIView):
+    def get(self, request):
+        logout(request)
